@@ -1,0 +1,160 @@
+@page
+@model Proyecto_Cine.Pages.Admin.Proveedores.NuevaCompraModel
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Registrar Compra";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="/css/Sitio.css" />
+    <style>
+        .form-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #1b1b1b;
+        }
+
+        .form-card {
+            background-color: #262626;
+            padding: 2rem 3rem;
+            border-radius: 10px;
+            width: 400px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            color: white;
+            text-align: center;
+        }
+
+        .form-card h2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .form-card p {
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .form-card label {
+            display: block;
+            text-align: left;
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        .form-card input,
+        .form-card select {
+            width: 100%;
+            padding: 0.5rem;
+            margin-top: 0.3rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-actions {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-actions .btn {
+            padding: 0.5rem 1rem;
+            background-color: #00bfff;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .form-actions .btn:hover {
+            background-color: #009fe3;
+        }
+
+        .btn-remove {
+            background-color: #ff4c4c;
+        }
+
+        .btn-remove:hover {
+            background-color: #d93636;
+        }
+
+        .btn-x {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            background: none;
+            border: none;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+        }
+
+        .btn-x:hover {
+            color: #00bfff;
+        }
+
+        .alert-success {
+            background-color: #28a745;
+            padding: 0.5rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="window.history.back()" class="btn-x">✖</button>
+
+    <div class="form-wrapper">
+        <div class="form-card">
+            <h2>Registrar Nueva Compra</h2>
+            <p>Completa la información para guardar la compra.</p>
+
+            @if (!string.IsNullOrEmpty(Model.Mensaje))
+            {
+                <div class="alert-success">@Model.Mensaje</div>
+            }
+
+            <form method="post">
+                <label>Proveedor</label>
+                <select asp-for="Compra.ProveedorId" required>
+                    <option value="">Selecciona un proveedor</option>
+                    @foreach (var proveedor in Model.Proveedores)
+                    {
+                        <option value="@proveedor.Id">@proveedor.Nombre</option>
+                    }
+                </select>
+
+                <label>Producto</label>
+                <select asp-for="Compra.ProductoId" required>
+                    <option value="">Selecciona un producto</option>
+                    @foreach (var producto in Model.Productos)
+                    {
+                        <option value="@producto.Id">@producto.Nombre</option>
+                    }
+                </select>
+
+                <label>Cantidad</label>
+                <input type="number" asp-for="Compra.Cantidad" required min="1" />
+
+                <label>Fecha</label>
+                <input type="date" asp-for="Compra.Fecha" required />
+
+                <div class="form-actions">
+                    <button type="submit" class="btn">Guardar</button>
+                    <button type="button" class="btn btn-remove" onclick="window.history.back();">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

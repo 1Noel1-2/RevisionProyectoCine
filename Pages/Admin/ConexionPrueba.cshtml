@@ -1,0 +1,16 @@
+@page
+@model Proyecto_Cine.Pages.Admin.ConexionPruebaModel
+@{
+    ViewData["Title"] = "Probar Conexión";
+}
+
+<h2>Probar conexión a la base de datos</h2>
+
+<form method="post">
+    <button type="submit">Probar conexión</button>
+</form>
+
+@if (Model.Mensaje != null)
+{
+    <p><strong>Resultado:</strong> @Model.Mensaje</p>
+}

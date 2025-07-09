@@ -1,0 +1,20 @@
+# Build
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+
+# User-specific
+.vscode/
+*.user
+*.suo
+
+# ASP.NET
+*.db
+*.db-shm
+*.db-wal
+
+# Others
+*.cache
+*.log

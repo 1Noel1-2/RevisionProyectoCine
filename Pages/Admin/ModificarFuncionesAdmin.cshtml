@@ -1,0 +1,117 @@
+@page "{id?}"
+@model Proyecto_Cine.Pages.Admin.ModificarFuncionesAdminModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Modificar/Agregar Función";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/css/Sitio.css" />
+</head>
+<body>
+
+<a asp-page="FuncionesAdmin" class="back-button">Regresar</a>
+
+<div class="form-container">
+    <div class="form-card">
+        <h2>Agregar / Editar Función</h2>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert-danger" style="background-color: #f8d7da; padding: 1rem; margin-bottom: 1rem; border-radius: 5px; color: #721c24;">
+                Hay errores en el formulario. Por favor, revísalos.
+            </div>
+        }
+
+        <form method="post" class="form-box">
+            <input type="hidden" asp-for="Funcion.Id" />
+
+            <label>Película:</label>
+            <select asp-for="Funcion.PeliculaId">
+                <option value="">Selecciona una película</option>
+                @foreach (var p in Model.Peliculas)
+                {
+                    <option value="@p.Id">@p.Titulo</option>
+                }
+            </select>
+            <span asp-validation-for="Funcion.PeliculaId" class="text-danger"></span>
+
+            <label>Sala:</label>
+            <select asp-for="Funcion.SalaId">
+                <option value="">Selecciona una sala</option>
+                @foreach (var s in Model.Salas)
+                {
+                    <option value="@s.Id">@s.Nombre</option>
+                }
+            </select>
+            <span asp-validation-for="Funcion.SalaId" class="text-danger"></span>
+
+            <label>Fecha:</label>
+            <input asp-for="Funcion.Fecha" type="date" />
+            <span asp-validation-for="Funcion.Fecha" class="text-danger"></span>
+
+            <label>Hora de inicio:</label>
+            <input asp-for="Funcion.HoraInicio" type="time" />
+            <span asp-validation-for="Funcion.HoraInicio" class="text-danger"></span>
+
+            <label>Hora de fin:</label>
+            <input asp-for="Funcion.HoraFin" type="time" />
+            <span asp-validation-for="Funcion.HoraFin" class="text-danger"></span>
+
+            <label>Idioma:</label>
+            <select asp-for="Funcion.Idioma">
+                <option value="">Selecciona un idioma</option>
+                <option value="Español">Español</option>
+                <option value="Subtitulada">Subtitulada</option>
+            </select>
+            <span asp-validation-for="Funcion.Idioma" class="text-danger"></span>
+
+            <label>Formato:</label>
+            <select asp-for="Funcion.Formato">
+                <option value="">Selecciona un formato</option>
+                <option value="2D">2D</option>
+                <option value="3D">3D</option>
+                <option value="IMAX">IMAX</option>
+            </select>
+            <span asp-validation-for="Funcion.Formato" class="text-danger"></span>
+
+            <label>Estado:</label>
+            <select asp-for="Funcion.Estado">
+                <option value="">Selecciona un estado</option>
+                <option value="Activa">Activa</option>
+                <option value="Inactiva">Inactiva</option>
+                <option value="Finalizada">Finalizada</option>
+            </select>
+            <span asp-validation-for="Funcion.Estado" class="text-danger"></span>
+
+            <div class="form-actions">
+                <button type="submit" class="btn">Guardar</button>
+                <a asp-page="/Admin/FuncionesAdmin" class="btn">Cancelar</a>
+            </div>
+        </form>
+
+        @* Mostrar errores generales del modelo *@
+        @foreach (var entry in ViewData.ModelState)
+        {
+            foreach (var error in entry.Value.Errors)
+            {
+                <div style="color:red; margin-top:1rem;">
+                    ❌ <strong>Campo:</strong> @entry.Key → @error.ErrorMessage
+                </div>
+            }
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+</body>
+</html>

@@ -1,0 +1,418 @@
+/* Estilo para tarjetas inactivas */
+.sala-card.inactive {
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    opacity: 1;
+    color: #444;
+}
+
+/* Texto más visible */
+.sala-card.inactive h4 {
+    color: #333;
+}
+
+/* Botón "Activar" */
+.btn-activar {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-activar:hover {
+    background-color: #218838;
+}
+
+/* Separación entre secciones */
+h3 {
+    margin-top: 2rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.5rem;
+}
+
+.estado-activa {
+    color: #155724;
+    background-color: #d4edda;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.estado-inactiva {
+    color: #6c757d;
+    background-color: #e2e3e5;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.estado-finalizada {
+    color: #721c24;
+    background-color: #f8d7da;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 1rem;
+    background-color: deepskyblue;
+    color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    width: fit-content;
+    transition: background-color 0.2s ease;
+}
+
+.back-button:hover {
+    background-color: #00a8ff;
+}
+
+.back-button::before {
+    content: "🡸";
+    font-size: 1.2rem;
+}
+
+body {
+    margin: 0;
+    background-color: #1e1e1e;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.admin-panel {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: row;
+}
+
+.sidebar {
+    background: #000;
+    padding: 2rem 1rem;
+    width: 220px;
+    text-align: center;
+}
+
+.sidebar .logo img {
+    width: 100px;
+    margin-bottom: 1rem;
+}
+
+.sidebar h2 {
+    margin: 1rem 0;
+    font-size: 1.2rem;
+    color: white;
+}
+
+.sidebar .btn {
+    display: block;
+    margin: 1rem auto;
+    padding: 0.6rem 1rem;
+    background-color: #007bff;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+}
+
+.sidebar .btn:hover {
+    background-color: #0056b3;
+}
+
+.content {
+    flex: 1;
+    padding: 2rem;
+}
+
+h1, h2, h3, h4 {
+    margin-top: 1;
+}
+
+.form-actions .btn{
+    margin: 1rem;
+}
+
+.form-box {
+    max-width: 500px;
+    margin-top: 1rem;
+}
+
+.toolbar,
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.btn-edit {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    background-color: deepskyblue;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+}
+.form-actions .btn{
+    margin: 1rem;
+}
+
+.toolbar .btn,
+button.btn,
+a.btn {
+    display: block;
+    margin: 1rem auto 100;
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    background-color: deepskyblue;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #00a8ff;
+}
+
+.form-box label {
+    display: block;
+    margin-top: 1rem;
+}
+
+.form-box input,
+.form-box select,
+.form-box textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    border-radius: 4px;
+    border: none;
+    background: #f0f0f0;
+    color: black;
+}
+
+.sala-grid,
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.2rem;
+    
+}
+
+.sala-card,
+.movie-card {
+    background: #333;
+    padding: 1rem;
+    border-radius: 8px;
+    position: relative;
+   
+}
+
+.movie-card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.card-actions {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.2rem;
+    justify-content: center; /* o flex-end o flex-start según lo que quieras */
+    flex-wrap: wrap;
+}
+
+.btn-accion {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    background-color: deepskyblue;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-remove {
+    background-color: #b00;
+    color: white;
+    padding: 0.3rem 0.6rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btn-remove {
+    background-color: #8b0000;
+    color: white;
+}
+
+.btn-remove:hover {
+    background-color: #a30000;
+}
+
+.edit-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: deepskyblue;
+    text-decoration: underline;
+}
+
+.search-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.search-form input[type="text"] {
+    flex: 1;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: none;
+}
+
+.search-form button,
+.search-form a.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: none;
+    background-color: deepskyblue;
+    color: black;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.table-admin {
+    width: 100%;
+    border-collapse: collapse;
+    background: #333;
+    color: white;
+    margin-top: 1rem;
+}
+.scroll-x {
+    overflow-x: auto;
+}
+
+.table-admin th,
+.table-admin td {
+    padding: 0.5rem;
+    border: 1px solid #444;
+    text-align: center;
+}
+
+.table-admin th {
+    
+    background-color: deepskyblue;
+    color: black;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #1e1e1e;
+}
+
+.form-card {
+    background: #2a2a2a;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: deepskybluey;
+    
+
+}
+
+.form-card h2 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.form-card p {
+    text-align: center;
+    color: #ccc;
+    margin-bottom: 1.5rem;
+}
+
+.back-link {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.btn-x {
+    display: inline-block;
+    font-size: 1.5rem;             /* Tamaño de la X */
+    color: white;
+    background-color: #ff3333;
+    border: none;
+    border-radius: 50%;
+    width: 40px;                   /* Tamaño del botón */
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;              /* Manita al pasar encima */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+}
+
+.btn-x:hover {
+    background-color: #cc0000;
+    transform: scale(1.1);        /* Efecto agrandado al pasar el mouse */
+}
+
+
+
+@media (max-width: 768px) {
+    .admin-panel {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .sidebar .btn {
+        width: 80%;
+        margin-bottom: 1rem;
+    }
+
+    .content {
+        padding: 1rem;
+    }
+    
+}

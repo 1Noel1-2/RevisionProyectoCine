@@ -1,0 +1,173 @@
+@page
+@model Proyecto_Cine.Pages.Admin.FuncionesAdminModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Funciones - Admin";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/css/Sitio.css" />
+
+</head>
+<body>
+
+<div class="admin-panel">
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="~/images/logo.svg" alt="Logo" class="logo-img" />
+        </div>
+        <h2>Administrador</h2>
+        <a href="/Admin/PanelAdmin" class="btn">Inicio Admin</a>
+        <a href="/Admin/CarteleraAdmin" class="btn">Películas</a>
+        <a href="/Admin/FuncionesAdmin" class="btn">Funciones</a>
+        <a href="/Admin/SalasAdmin" class="btn">Salas</a>
+        <a href="/Admin/Proveedores/Proveedores" class="btn">Proveedores</a>
+        <a href="/Admin/Productos/Inventario" class="btn">Inventario</a>
+    </aside>
+
+    <main class="content">
+        <h2>Funciones</h2>
+        <p>Gestión de las funciones de cine</p>
+
+        @if (TempData["MensajeExito"] != null)
+        {
+            <div class="alert-success" style="background-color: #d4edda; padding: 1rem; margin-bottom: 1rem; border-radius: 5px; color: #155724;">
+                @TempData["MensajeExito"]
+            </div>
+        }
+
+        <form method="get" class="toolbar">
+            <select asp-for="FiltroPeliculaId">
+                <option value="">Todas las películas</option>
+                @foreach (var p in Model.Peliculas)
+                {
+                    <option value="@p.Id">@p.Titulo</option>
+                }
+            </select>
+
+            <select asp-for="FiltroSalaId">
+                <option value="">Todas las salas</option>
+                @foreach (var s in Model.Salas)
+                {
+                    <option value="@s.Id">@s.Nombre</option>
+                }
+            </select>
+
+            <input asp-for="FiltroFecha" type="date" />
+
+            <button type="submit" class="btn">Filtrar</button>
+
+            <a class="btn" asp-page="/Admin/ModificarFuncionesAdmin">+ Añadir</a>
+            <a class="btn" asp-page="/Admin/ConsultarFuncionesAdmin">Consultar Funciones</a>
+        </form>
+
+        <!-- 🎟️ Funciones Activas -->
+        <h2 style="margin-top:2rem;">🎟️ Funciones Activas</h2>
+        @foreach (var grupo in Model.FuncionesActivas)
+        {
+            <h3 style="margin-top: 2rem;">🎬 @grupo.Key</h3>
+
+            <table class="table-admin">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Sala</th>
+                        <th>Fecha</th>
+                        <th>Inicio</th>
+                        <th>Fin</th>
+                        <th>Idioma</th>
+                        <th>Formato</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var f in grupo.Value)
+                    {
+                        <tr>
+                            <td>@f.Id</td>
+                            <td>@f.Sala?.Nombre</td>
+                            <td>@($"{f.Fecha:yyyy-MM-dd}")</td>
+                            <td>@f.HoraInicio</td>
+                            <td>@f.HoraFin</td>
+                            <td>@f.Idioma</td>
+                            <td>@f.Formato</td>
+                            <td>
+                                <span class="@(f.Estado == "Activa" ? "estado-activa" :
+                                               f.Estado == "Inactiva" ? "estado-inactiva" :
+                                               f.Estado == "Finalizada" ? "estado-finalizada" : "")">
+                                    @f.Estado
+                                </span>
+                            </td>
+                            <td>
+                                <a class="btn-edit" asp-page="/Admin/ModificarFuncionesAdmin" asp-route-id="@f.Id">Editar</a>
+                                <form method="post" asp-page-handler="Eliminar" asp-route-id="@f.Id" style="display:inline;">
+                                    <button type="submit" class="btn-accion btn-remove">Desactivar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        <!-- 🗂️ Funciones Inactivas -->
+        <h2 style="margin-top:3rem;">🗂️ Funciones Inactivas</h2>
+        @foreach (var grupo in Model.FuncionesInactivas)
+        {
+            <h3 style="margin-top: 2rem;">🎬 @grupo.Key</h3>
+
+            <table class="table-admin">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Sala</th>
+                        <th>Fecha</th>
+                        <th>Inicio</th>
+                        <th>Fin</th>
+                        <th>Idioma</th>
+                        <th>Formato</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var f in grupo.Value)
+                    {
+                        <tr>
+                            <td>@f.Id</td>
+                            <td>@f.Sala?.Nombre</td>
+                            <td>@($"{f.Fecha:yyyy-MM-dd}")</td>
+                            <td>@f.HoraInicio</td>
+                            <td>@f.HoraFin</td>
+                            <td>@f.Idioma</td>
+                            <td>@f.Formato</td>
+                            <td>
+                                <span class="@(f.Estado == "Activa" ? "estado-activa" :
+                                               f.Estado == "Inactiva" ? "estado-inactiva" :
+                                               f.Estado == "Finalizada" ? "estado-finalizada" : "")">
+                                    @f.Estado
+                                </span>
+                            </td>
+                            <td>
+                                <a class="btn-edit" asp-page="/Admin/ModificarFuncionesAdmin" asp-route-id="@f.Id">Editar</a>
+                                <form method="post" asp-page-handler="Activar" asp-route-id="@f.Id" style="display:inline;">
+                                    <button type="submit" class="btn-activar">Activar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+    </main>
+</div>
+
+</body>
+</html>

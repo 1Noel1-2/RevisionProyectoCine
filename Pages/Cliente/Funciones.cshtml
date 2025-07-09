@@ -1,0 +1,419 @@
+@page
+@using Proyecto_Cine.Pages.Cliente
+@model FuncionesModel
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+@{
+    ViewData["Title"] = "Funciones";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/css/FuncionesCliente.css" />
+</head>
+<body>
+    <style>
+    .horario-seleccionado {
+        background-color: deepskyblue !important;
+        color: white !important;
+    }
+
+    .modal {
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: white;
+        color: black;
+        padding: 2rem;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 500px;
+        position: relative;
+    }
+
+    .cerrar {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        cursor: pointer;
+        font-size: 1.5rem;
+    }
+
+    .boleto-modal {
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .boleto-modal-content {
+        background-color: #111;
+        color: white;
+        padding: 2rem;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 500px;
+        position: relative;
+        text-align: center;
+    }
+
+    .boleto-modal-content h2 {
+        font-size: 1.6rem;
+        font-weight: bold;
+        margin-bottom: 2rem;
+    }
+
+    .btn-cerrar {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: white;
+        cursor: pointer;
+    }
+
+    .btn-regresar {
+        background-color: deepskyblue;
+        color: white;
+        border: none;
+        font-size: 1rem;
+        padding: 0.6rem 1.2rem;
+        border-radius: 25px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-regresar:hover {
+        background-color: #00a8ff;
+    }
+
+    .tipos-boletos {
+        margin: 2rem 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .tipos-boletos .boleto-linea {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+        font-size: 1.2rem;
+    }
+
+    .boleto-linea small {
+        font-size: 1rem;
+        color: #ccc;
+    }
+
+    .controles-cantidad {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .controles-cantidad button {
+        background-color: deepskyblue;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 1.4rem;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .controles-cantidad input {
+        width: 50px;
+        height: 40px;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        background-color: white;
+        color: black;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .total-boletos {
+        margin-top: 1rem;
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: white;
+    }
+
+    .btn-seleccionar {
+        background-color: deepskyblue;
+        border: none;
+        color: white;
+        padding: 0.9rem 2.5rem;
+        border-radius: 12px;
+        font-size: 1.3rem;
+        margin-top: 1.5rem;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-seleccionar:hover {
+        background-color: #00a8ff;
+    }
+</style>
+
+
+
+<header class="encabezado">
+    <div class="logo-header">
+        <a href="/Cliente/Home"><img src="~/images/logo.svg" alt="Logo" /></a>
+    </div>
+    <div>
+        <h1><strong>Funciones, horarios y salas disponibles</strong></h1>
+    </div>
+    <div class="icono-user">
+        @if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            <form method="post" asp-page="/Logout">
+                <button type="submit">Cerrar sesión</button>
+            </form>
+        }
+        else
+        {
+            <a href="/Login" class="btn p-0 border-0 bg-transparent" title="Iniciar sesión">
+                <img src="~/images/iconos/user.png" alt="Iniciar sesión" style="height:60px; width:60px; border-radius:50%;" />
+            </a>
+        }
+    </div>
+</header>
+
+<nav class="navegacion">
+    <a asp-page="/Cliente/home">Cartelera</a> › 
+    <a asp-page="/Cliente/Funciones">Funciones</a> ›
+    <a asp-page="/Cliente/Boletos">Boletos</a> › 
+    <a asp-page="/Cliente/SeleccionAsientos">Asientos</a> › 
+    <a asp-page="/Cliente/Resumen">Resumen</a>
+</nav>
+
+<section class="contenedor-funciones">
+    <div class="lista-funciones">
+        <div class="idioma">
+            <h3>Español</h3>
+            <div class="horarios">
+                @foreach (var funcion in Model.FuncionesEspañol)
+                {
+                    <button type="button" class="horario" onclick="seleccionarFuncion(this, @funcion.Id)">
+                        @funcion.HoraInicio.ToString()<br/>
+                        <span>@funcion.Sala?.Nombre</span>
+                    </button>
+                }
+            </div>
+        </div>
+        <div class="idioma">
+            <h3>Subtitulada</h3>
+            <div class="horarios">
+                @foreach (var funcion in Model.FuncionesSubtituladas)
+                {
+                    <button type="button" class="horario" onclick="seleccionarFuncion(this, @funcion.Id)">
+                        @funcion.HoraInicio.ToString()<br/>
+                        <span>@funcion.Sala?.Nombre</span>
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+
+    <aside class="info-pelicula">
+        <img src="@Model.Pelicula?.Imagen" />
+        <div class="detalle">
+            <div class="clasificacion">@Model.Pelicula?.Clasificacion</div>
+            <strong>@Model.Pelicula?.Titulo</strong>
+            <p><em>Duración:</em> @Model.Pelicula?.Duracion min</p>
+            <p class="descripcion">@Model.Pelicula?.Sinopsis</p>
+            <p><strong>Cine:</strong> Cine Plaza Museo</p>
+            <p><strong>Función:</strong> Hoy, @DateTime.Now.ToShortTimeString()</p>
+        </div>
+    </aside>
+</section>
+
+<footer class="boton-final">
+    <button class="btn-continuar" id="btnContinuar" onclick="abrirModal()" disabled>Continuar</button>
+</footer>
+
+<div id="modalCompra" class="boleto-modal" style="display:none;">
+    <div class="boleto-modal-content">
+        <button class="btn-cerrar" onclick="cerrarModal()">×</button>
+        <button class="btn-regresar" onclick="cerrarModal()">
+            <span>🡸</span> Atrás
+        </button>
+        <h2>Selecciona tus boletos</h2>
+        <form id="formCompra" method="get" action="/Cliente/SeleccionAsientos">
+            <input type="hidden" name="idFuncion" id="FuncionId" />
+            <input type="hidden" name="boletos" id="BoletosSeleccionadosJson" />
+            <input type="hidden" name="TotalPrecio" id="TotalPrecio" />
+
+            <div id="tiposBoletos" class="tipos-boletos">
+                <!-- Dinámico vía fetch -->
+            </div>
+
+            <div class="total-boletos">
+                <strong>Total: <span id="totalCantidad">0 boletos</span></strong>
+                <div><strong id="totalPrecio">$0.00 mx</strong></div>
+            </div>
+
+            <button type="submit" class="btn-seleccionar">Seleccionar</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    let funcionSeleccionadaId = null;
+    let botonSeleccionado = null;
+
+    function seleccionarFuncion(boton, funcionId) {
+        if (botonSeleccionado) {
+            botonSeleccionado.classList.remove('horario-seleccionado');
+        }
+        boton.classList.add('horario-seleccionado');
+        botonSeleccionado = boton;
+        funcionSeleccionadaId = funcionId;
+        document.getElementById('btnContinuar').disabled = false;
+    }
+
+    function abrirModal() {
+        if (!funcionSeleccionadaId) {
+            alert("Debes seleccionar una función primero.");
+            return;
+        }
+
+        document.getElementById('FuncionId').value = funcionSeleccionadaId;
+        const cont = document.getElementById('tiposBoletos');
+        cont.innerHTML = 'Cargando...';
+
+        fetch(`/api/funciones/${funcionSeleccionadaId}/precios`)
+            .then(res => res.json())
+            .then(data => {
+                cont.innerHTML = '';
+                data.forEach(item => {
+                    const linea = document.createElement('div');
+                    linea.className = 'boleto-linea';
+                    linea.innerHTML = `
+                        <div>
+                            <div>${item.nombre}</div>
+                            <small>$${item.precio.toFixed(2)} mx</small>
+                        </div>
+                        <div class="controles-cantidad">
+                            <button type="button" onclick="cambiarCantidad(${item.id}, -1)">−</button>
+                            <input type="text" id="cantidad_${item.id}" value="0" readonly />
+                            <button type="button" onclick="cambiarCantidad(${item.id}, 1)">+</button>
+                        </div>
+                    `;
+                    cont.appendChild(linea);
+                });
+                actualizarTotales();
+            });
+
+        document.getElementById('modalCompra').style.display = 'flex';
+    }
+
+    function cerrarModal() {
+        document.getElementById('modalCompra').style.display = 'none';
+    }
+
+    function cambiarCantidad(id, delta) {
+        const input = document.getElementById(`cantidad_${id}`);
+        let val = parseInt(input.value) || 0;
+        val = Math.max(0, val + delta);
+        input.value = val;
+        actualizarTotales();
+    }
+
+    function actualizarTotales() {
+        let totalCantidad = 0;
+        let totalPrecio = 0;
+        document.querySelectorAll('#tiposBoletos input[id^="cantidad_"]').forEach(input => {
+            const cantidad = parseInt(input.value) || 0;
+            const precio = parseFloat(
+                input.closest('.boleto-linea')
+                     .querySelector('small')
+                     .textContent
+                     .replace('$', '')
+                     .replace(' mx', '')
+            );
+            totalCantidad += cantidad;
+            totalPrecio += cantidad * precio;
+        });
+
+        document.getElementById('totalCantidad').textContent = `${totalCantidad} boletos`;
+        document.getElementById('totalPrecio').textContent = `$${totalPrecio.toFixed(2)} mx`;
+
+        // actualiza el campo oculto
+        document.getElementById('TotalPrecio').value = totalPrecio.toFixed(2);
+        console.log('TotalPrecio hidden:', document.getElementById('TotalPrecio').value);
+
+    }
+
+    document.getElementById('formCompra').addEventListener('submit', function (e) {
+        // asegúrate de recalcular antes de enviar
+        actualizarTotales();
+
+        const boletos = {};
+        document.querySelectorAll('#tiposBoletos input[id^="cantidad_"]').forEach(input => {
+            const cantidad = parseInt(input.value) || 0;
+            if (cantidad > 0) {
+                const id = input.id.split('_')[1];
+                boletos[id] = cantidad;
+            }
+        });
+
+        if (!funcionSeleccionadaId || Object.keys(boletos).length === 0) {
+            alert("Debes seleccionar al menos un boleto.");
+            e.preventDefault();
+            return;
+        }
+
+        document.getElementById('BoletosSeleccionadosJson').value = JSON.stringify(boletos);
+    });
+</script>
+
+</body>
+</html>

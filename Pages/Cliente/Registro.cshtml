@@ -1,0 +1,54 @@
+@page
+@model Proyecto_Cine.Pages.RegistroModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+<div class="login-container">
+    <form method="post">
+        <h3>Crear cuenta</h3>
+
+        <div class="form-group">
+            <label asp-for="Datos.Nombre"></label>
+            <input asp-for="Datos.Nombre" class="form-control"/>
+            <span asp-validation-for="Datos.Nombre" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Datos.Apellido"></label>
+            <input asp-for="Datos.Apellido" class="form-control"/>
+            <span asp-validation-for="Datos.Apellido" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Datos.Email"></label>
+            <input asp-for="Datos.Email" class="form-control"/>
+            <span asp-validation-for="Datos.Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Datos.Contrasena"></label>
+            <input asp-for="Datos.Contrasena" class="form-control"/>
+            <span asp-validation-for="Datos.Contrasena" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Datos.ConfirmarContrasena"></label>
+            <input asp-for="Datos.ConfirmarContrasena" class="form-control"/>
+            <span asp-validation-for="Datos.ConfirmarContrasena" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Registrarse</button>
+
+        <div class="form-links">
+            <a asp-page="/Login">¿Ya tienes cuenta? Inicia sesión</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

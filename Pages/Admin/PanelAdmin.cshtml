@@ -1,0 +1,65 @@
+@page
+@model Proyecto_Cine.Pages.PanelAdminModel
+@{
+    Layout = null;
+}
+<link rel="stylesheet" href="~/css/PanelAdmin.css" />
+
+<div class="admin-container">
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="~/images/logo.svg" alt="Logo" class="logo-img" />
+        </div>
+        <h2>Administrador</h2>
+        <a href="/Admin/PanelAdmin" class="btn">Incio Admin</a>
+        <a href="/Admin/CarteleraAdmin" class="btn">Películas</a>
+        <a href="/Admin/FuncionesAdmin" class="btn">Funciones</a>
+        <a href="/Admin/SalasAdmin" class="btn">Salas</a>
+        <a href="/Admin/Proveedores/Proveedores" class="btn">Proveedores</a>
+        <a href="/Admin/Productos/Inventario" class="btn">Inventario</a>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <h1>Panel de Administración - SarmiMovie</h1>
+            <a asp-page="/Logout" class="logout-btn">Cerrar sesión</a>
+        </header>
+
+        <h2>¡Bienvenido, Admin!</h2>
+
+        <section class="dashboard-box">
+            <h2 class="r">Resumen general de SarmiMovie!</h2>
+            <div class="card-grid">
+                <div class="summary-card">
+                    <h3>Películas en cartelera</h3>
+                    <p>@Model.PeliculasActivas</p>
+                </div>
+                <div class="summary-card">
+                    <h3>Salas disponibles</h3>
+                    <p>@Model.SalasDisponibles</p>
+                </div>
+                <div class="summary-card">
+                    <h3>Próximos estrenos</h3>
+                    <p>@Model.EstrenosProximos</p>
+                </div>
+                <div class="summary-card">
+                    <h3>Boletos vendidos esta semana</h3>
+                    <p>@Model.BoletosVendidosSemana</p>
+                </div>
+            </div>
+
+            @if (Model.Notificaciones.Any())
+            {
+                <div class="notificaciones">
+                    <h2>Notificaciones</h2>
+                    <ul>
+                        @foreach (var nota in Model.Notificaciones)
+                        {
+                            <li>@nota</li>
+                        }
+                    </ul>
+                </div>
+            }
+        </section>
+    </main>
+</div>

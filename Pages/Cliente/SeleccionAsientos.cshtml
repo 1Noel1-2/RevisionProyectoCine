@@ -1,0 +1,114 @@
+@page "{id?}"
+@model Proyecto_Cine.Pages.Cliente.SeleccionAsientosModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Seleccionar Asientos</title>
+    <link rel="stylesheet" href="/css/asientos.css" />
+</head>
+<body class="asientos-body">
+    <div class="asientos-container">
+        <header class="asientos-header">
+            <a href="/Cliente/Home">
+                <img src="~/images/logo.svg" alt="Logo" style="height: 100px;" />
+            </a>
+            
+            <h1 class="titulo-asientos">Seleccionar Asientos</h1>
+            <nav class="breadcrumb">
+                <a href="#" onclick="confirmarSalida('/Cliente/Home')">Cartelera</a> ▸
+                <a href="#" onclick="confirmarSalida('/Cliente/Funciones')">Funciones</a> ▸
+                <span>Boletos</span> ▸
+                <strong>Asientos</strong> ▸
+                <span>Resumen</span>
+            </nav>
+        </header>
+
+        <main class="asientos-main">
+            <section class="asientos-grid-section">
+                <div class="indicadores">
+                    <span class="cuadro disponible"></span> Disponibilidad
+                    <span class="cuadro ocupado"></span> Ocupado
+                </div>
+                <div class="pantalla">Pantalla Sala @Model.NombreSala</div>
+
+                <form method="post">
+                    @foreach (var fila in Model.MatrizAsientos.Keys)
+                    {
+                        <div class="fila-asientos">
+                            <span class="letra-fila">@fila</span>
+                            @foreach (var asiento in Model.MatrizAsientos[fila])
+                            {
+                                if (asiento.Disponible)
+                                {
+                                    <input type="checkbox"
+                                           id="asiento_@asiento.Id"
+                                           name="AsientosSeleccionados"
+                                           value="@asiento.Id"
+                                           @(Model.AsientosSeleccionados.Contains(asiento.Id) ? "checked" : "") />
+                                    <label for="asiento_@asiento.Id" class="asiento disponible">
+                                        @asiento.Numero
+                                    </label>
+                                }
+                                else
+                                {
+                                    <label class="asiento ocupado">@asiento.Numero</label>
+                                }
+                            }
+                        </div>
+                    }
+
+                    <!-- Inputs ocultos actualizados -->
+                    <input type="hidden"
+                           name="idFuncion"
+                           value="@Model.idFuncion" />
+
+                    <input type="hidden"
+                           id="inputBoletosDescripcion"
+                           name="BoletosDescripcionInput"
+                           value="@Model.BoletosDescripcionInput" />
+
+                    <input type="hidden"
+                           id="inputTotal"
+                           name="TotalPrecio"
+                           value="@Model.TotalPrecio" />
+
+                    <input type="hidden"
+                           id="inputBoletosJson"
+                           name="BoletosJson" />
+
+                    <button type="submit" class="btn-continuar">Continuar</button>
+                </form>
+            </section>
+
+            <aside class="resumen-funcion">
+                <img src="@Model.Pelicula?.Imagen" alt="@Model.Pelicula?.Titulo" class="poster" />
+                <h3>@Model.Pelicula?.Titulo</h3>
+                <p><strong>Cine:</strong> @Model.NombreSucursal</p>
+                <p><strong>Función:</strong> @Model.FechaFormateada, @Model.HoraFormateada</p>
+                <p><strong>Formato:</strong> @Model.Funcion?.Formato</p>
+                <p><strong>Idioma:</strong> @Model.Funcion?.Idioma</p>
+            </aside>
+        </main>
+    </div>
+
+    <script>
+        let destino = "";
+        function confirmarSalida(ruta) {
+            destino = ruta;
+            document.getElementById('confirmModal').style.display = 'flex';
+        }
+        function cancelarSalida() {
+            destino = "";
+            document.getElementById('confirmModal').style.display = 'none';
+        }
+        function confirmarRedireccion() {
+            if (destino) window.location.href = destino;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+@page "{id?}"
+@model Proyecto_Cine.Pages.Admin.ModificarAgregarSalasAdminModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Modificar/Agregar Sala";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/css/Sitio.css" />
+</head>
+<body>
+
+<a asp-page="SalasAdmin" class="back-button">Regresar</a>
+
+<div class="form-container">
+    <div class="form-card">
+        <h2>Sala</h2>
+        <p>Agregar o modificar una sala</p>
+
+        <form method="post" class="form-box">
+            <!-- Mantener el ID en el formulario -->
+            <input type="hidden" asp-for="Sala.Id" />
+
+            <label>Nombre</label>
+            <input asp-for="Sala.Nombre" />
+
+            <label>Capacidad</label>
+            <input asp-for="Sala.Capacidad" type="number" />
+
+            <label>Formato</label>
+            <select asp-for="Sala.Tipo">
+                <option value="Estándar">Estándar</option>
+                <option value="3D">3D</option>
+                <option value="IMAX">IMAX</option>
+            </select>
+
+            <label>Sucursal</label>
+            <select asp-for="Sala.IdSucursal">
+                @foreach (var sucursal in Model.Sucursales)
+                {
+                    <option value="@sucursal.Id" selected="@(sucursal.Id == Model.Sala.IdSucursal)">
+                        @sucursal.Nombre
+                    </option>
+                }
+            </select>
+
+            <div class="form-actions">
+                <button type="submit" class="btn">Guardar Sala</button>
+                <a asp-page="/Admin/SalasAdmin" class="btn">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

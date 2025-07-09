@@ -1,0 +1,111 @@
+@model List<Proyecto_Cine.Models.ViewModels.BoletoModalViewModel>
+
+<div id="modalSeleccionBoletos" class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0, 0, 0, 0.7);">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white p-4 rounded">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold">Selecciona tus boletos</h5>
+                <button type="button" class="btn-close btn-close-white" onclick="cerrarModal()"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formBoletos">
+                    @foreach (var boleto in Model)
+                    {
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <strong>@boleto.Nombre</strong><br />
+                                <small>$@boleto.Precio.ToString("0.00") mx</small>
+                            </div>
+                            <div class="input-group" style="width: 130px;">
+                                <button type="button" class="btn btn-outline-light" onclick="cambiarCantidad('@boleto.Id', -1)">-</button>
+                                <input type="text" name="Cantidades[@boleto.Id]" id="cantidad_@boleto.Id" value="0" class="form-control text-center bg-dark text-white" readonly />
+                                <button type="button" class="btn btn-info" onclick="cambiarCantidad('@boleto.Id', 1)">+</button>
+                            </div>
+                        </div>
+                    }
+
+                    <hr class="bg-secondary" />
+
+                    <div class="text-end mb-3">
+                        <strong>Total: <span id="totalBoletos">0</span> boletos</strong><br />
+                        <small>$<span id="totalPrecio">0.00</span> mx</small>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="button" class="btn btn-primary" onclick="enviarBoletos()">Seleccionar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const precios = {
+        @foreach (var boleto in Model)
+        {
+            @:@boleto.Id: @boleto.Precio,
+        }
+    };
+
+    function cambiarCantidad(id, delta) {
+        const input = document.getElementById('cantidad_' + id);
+        let valor = parseInt(input.value) + delta;
+        if (valor < 0) valor = 0;
+        input.value = valor;
+        actualizarTotales();
+    }
+
+    function actualizarTotales() {
+        let totalBoletos = 0;
+        let totalPrecio = 0;
+
+        for (const id in precios) {
+            const cantidad = parseInt(document.getElementById('cantidad_' + id).value);
+            totalBoletos += cantidad;
+            totalPrecio += cantidad * precios[id];
+        }
+
+        document.getElementById('totalBoletos').textContent = totalBoletos;
+        document.getElementById('totalPrecio').textContent = totalPrecio.toFixed(2);
+    }
+
+    function enviarBoletos() {
+        let seleccion = [];
+        let descripcion = [];
+        let total = 0;
+
+        for (const id in precios) {
+            const cantidad = parseInt(document.getElementById('cantidad_' + id).value);
+            if (cantidad > 0) {
+                const nombre = document.querySelector(`#cantidad_${id}`).closest('.d-flex').querySelector('strong').textContent;
+                descripcion.push(`${cantidad} ${nombre}(s)`);
+                total += cantidad * precios[id];
+                seleccion.push({ tipo: parseInt(id), cantidad: cantidad });
+            }
+        }
+
+        // Guardar en campos ocultos
+        const inputDescripcion = document.getElementById('inputBoletosDescripcion');
+        const inputTotal = document.getElementById('inputTotal');
+        const inputJson = document.getElementById('inputBoletosJson');
+
+        if (!inputDescripcion || !inputTotal || !inputJson) {
+            alert("Faltan campos ocultos para enviar la información.");
+            return;
+        }
+
+        inputDescripcion.value = descripcion.join(", ");
+        inputTotal.value = total.toFixed(2);
+        inputJson.value = JSON.stringify(seleccion);
+
+        cerrarModal();
+    }
+
+    function cerrarModal() {
+        const modal = document.getElementById("modalSeleccionBoletos");
+        modal.classList.remove("show");
+        modal.classList.add("d-none");
+    }
+</script>
+

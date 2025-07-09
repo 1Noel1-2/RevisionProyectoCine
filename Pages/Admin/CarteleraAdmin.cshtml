@@ -1,0 +1,107 @@
+@page
+@model CarteleraAdminModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Cartelera - Admin";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/css/CarteleraAdmin.css" />
+</head>
+<body>
+
+<div class="admin-panel">
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="~/images/logo.svg" alt="Logo" class="logo-img" />
+        </div>
+        <h2>Administrador</h2>
+        <a href="/Admin/PanelAdmin" class="btn">Inicio Admin</a>
+        <a href="/Admin/CarteleraAdmin" class="btn">Películas</a>
+        <a href="/Admin/FuncionesAdmin" class="btn">Funciones</a>
+        <a href="/Admin/SalasAdmin" class="btn">Salas</a>
+        <a href="/Admin/Proveedores/Proveedores" class="btn">Proveedores</a>
+        <a href="/Admin/Productos/Inventario" class="btn">Inventario</a>
+    </aside>
+
+    <main class="content">
+        <h2>Cartelera</h2>
+        <p>Películas en exhibición</p>
+
+        <form method="get" class="search-form">
+            <input type="text" name="searchTerm" value="@Model.SearchTerm" placeholder="Buscar película..." />
+            <button type="submit">🔍</button>
+            <a class="btn" asp-page="ModificarPeliculaAdmin">+ Añadir</a>
+        </form>
+
+        <!-- 🎬 PELÍCULAS ACTIVAS -->
+        <div class="movie-grid">
+        @foreach (var pelicula in Model.Peliculas)
+        {
+            <div class="movie-card">
+                <span class="badge badge-@pelicula.Clasificacion?.ToLower()">@pelicula.Clasificacion</span>
+
+                <img src="@pelicula.Imagen" alt="@pelicula.Titulo" class="movie-img" />
+
+                <h4 class="titulo">@pelicula.Titulo</h4>
+
+                <a class="btn-accion btn-modificar" asp-page="ModificarPeliculaAdmin" asp-route-id="@pelicula.Id">Modificar</a>
+
+                <a href="javascript:void(0);" onclick="confirmarDesactivacion(@pelicula.Id)" class="btn-accion btn-quitar">Quitar</a>
+                <form id="form-desactivar-@pelicula.Id" method="post" asp-page-handler="Desactivar" asp-route-id="@pelicula.Id" style="display:none;"></form>
+            </div>
+        }
+        </div>
+
+        <!-- 🎬 PELÍCULAS INACTIVAS -->
+        @if (Model.PeliculasInactivas.Any())
+        {
+            <h2 style="margin-top: 3rem;">Películas desactivadas</h2>
+            <p>Estas películas ya no están en cartelera</p>
+
+            <div class="movie-grid">
+            @foreach (var pelicula in Model.PeliculasInactivas)
+            {
+                <div class="movie-card inactive">
+                    <span class="badge badge-@pelicula.Clasificacion?.ToLower()">@pelicula.Clasificacion</span>
+
+                    <img src="@pelicula.Imagen" alt="@pelicula.Titulo" class="movie-img" />
+
+                    <h4 class="titulodes">@pelicula.Titulo</h4>
+
+                    <a class="btn-accion btn-modificar" asp-page="ModificarPeliculaAdmin" asp-route-id="@pelicula.Id">Modificar</a>
+
+                    <a href="javascript:void(0);" onclick="confirmarActivacion(@pelicula.Id)" class="btn-accion btn-activar">Activar</a>
+                    <form id="form-activar-@pelicula.Id" method="post" asp-page-handler="Activar" asp-route-id="@pelicula.Id" style="display:none;"></form>
+                </div>
+            }
+            </div>
+        }
+
+    </main>
+</div>
+
+<!-- ✅ SCRIPTS DE CONFIRMACIÓN -->
+<script>
+    function confirmarDesactivacion(id) {
+        const ok = confirm("¿Estás seguro de que deseas quitar esta película de la cartelera?");
+        if (ok) {
+            document.getElementById('form-desactivar-' + id).submit();
+        }
+    }
+
+    function confirmarActivacion(id) {
+        const ok = confirm("¿Deseas volver a activar esta película?");
+        if (ok) {
+            document.getElementById('form-activar-' + id).submit();
+        }
+    }
+</script>
+
+</body>
+</html>

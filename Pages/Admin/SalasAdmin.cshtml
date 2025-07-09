@@ -1,0 +1,87 @@
+@page
+@model Proyecto_Cine.Pages.Admin.SalasAdminModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Salas - Admin";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/css/Sitio.css" />
+</head>
+<body>
+
+<div class="admin-panel">
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="~/images/logo.svg" alt="Logo" class="logo-img" />
+        </div>
+        <h2>Administrador</h2>
+        <a href="/Admin/PanelAdmin" class="btn">Inicio Admin</a>
+        <a href="/Admin/CarteleraAdmin" class="btn">Películas</a>
+        <a href="/Admin/FuncionesAdmin" class="btn">Funciones</a>
+        <a href="/Admin/SalasAdmin" class="btn">Salas</a>
+        <a href="/Admin/Proveedores/Proveedores" class="btn">Proveedores</a>
+        <a href="/Admin/Productos/Inventario" class="btn">Inventario</a>
+    </aside>
+
+    <main class="content">
+        <h2>Salas</h2>
+        <p>Gestión de salas de cine</p>
+
+        <div class="toolbar">
+            <a class="btn" asp-page="/Admin/ModificarAgregarSalasAdmin">+ Añadir</a>
+        </div>
+
+        <!-- SALAS ACTIVAS -->
+        <h3>Salas Activas</h3>
+        <div class="sala-grid">
+            @foreach (var sala in Model.SalasActivas)
+            {
+                <div class="sala-card">
+                    <h4>@sala.Nombre - @sala.Tipo</h4>
+                    <p>Capacidad: @sala.Capacidad</p>
+                    <p>Sucursal: @sala.IdSucursalNavigation?.Nombre</p>
+
+                    <div class="card-actions">
+                        <a class="btn" asp-page="/Admin/ModificarAgregarSalasAdmin" asp-route-id="@sala.Id">Modificar</a>
+                    </div>
+                    <div class="card-actions">
+                        <form method="post" asp-page-handler="Suspender" asp-route-id="@sala.Id">
+                            <button type="submit" class="btn">Suspender</button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- SALAS INACTIVAS -->
+        <h3>Salas Inactivas</h3>
+        <div class="sala-grid">
+            @foreach (var sala in Model.SalasInactivas)
+            {
+                <div class="sala-card inactive">
+                    <h4>@sala.Nombre - @sala.Tipo</h4>
+                    <p>Capacidad: @sala.Capacidad</p>
+                    <p>Sucursal: @sala.IdSucursalNavigation?.Nombre</p>
+                    <p>Estado: Inactiva</p>
+
+                    <div class="card-actions">
+                        <form method="post" asp-page-handler="Activar" asp-route-id="@sala.Id">
+                            <button type="submit" class="btn btn-activar">Activar</button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+
+
+    </main>
+</div>
+
+</body>
+</html>

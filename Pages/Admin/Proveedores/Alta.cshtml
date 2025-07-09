@@ -1,0 +1,53 @@
+@page
+@model Proyecto_Cine.Pages.Admin.Proveedores.AltaModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Alta Proveedor";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Sitio.css" />
+</head>
+<body>
+    <a onclick="window.history.back()" class="btn-x">✖</a>
+    <div class="form-container">
+        <div class="form-card">
+            <h2>Nuevo Proveedor</h2>
+            <p>Registrar un proveedor en el sistema</p>
+
+            <form method="post">
+                <div class="form-box">
+                    <label>Nombre</label>
+                    <input asp-for="Proveedor.Nombre" required />
+
+                    <label>Razón Social</label>
+                    <input asp-for="Proveedor.RazonSocial" required />
+
+                    <label>RFC</label>
+                    <input asp-for="Proveedor.RFC" required />
+
+                    <label>Domicilio</label>
+                    <input asp-for="Proveedor.Domicilio" required />
+
+                    <label>Teléfono</label>
+                    <input asp-for="Proveedor.Telefono" required />
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn">Guardar</button>
+                    <button type="button" class="btn btn-remove" onclick="window.history.back()">Cancelar</button>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Mensaje))
+                {
+                    <p style="color: lightgreen; font-weight: bold;">@Model.Mensaje</p>
+                }
+            </form>
+        </div>
+    </div>
+</body>
+</html>

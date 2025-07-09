@@ -1,0 +1,66 @@
+@page
+@model Proyecto_Cine.Pages.Admin.ConsultarFuncionesAdminModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Consultar Funciones";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/css/Sitio.css" />
+</head>
+<body>
+
+<a asp-page="/Admin/FuncionesAdmin" class="back-link">← Regresar</a>
+
+<div class="form-container">
+    <div class="form-card">
+        <h2>Funciones Existentes</h2>
+
+        @if (Model.Funciones.Count == 0)
+        {
+            <p>No hay funciones registradas.</p>
+        }
+        else
+        {
+            <div class="scroll-x">
+                <table class="table-admin">
+                    <thead>
+                        <tr>
+                            <th>Película</th>
+                            <th>Sala</th>
+                            <th>Fecha</th>
+                            <th>Hora Inicio</th>
+                            <th>Hora Fin</th>
+                            <th>Idioma</th>
+                            <th>Formato</th>
+                            @* <th>Precio</th> *@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var f in Model.Funciones)
+                        {
+                            <tr>
+                                <td>@f.Pelicula?.Titulo</td>
+                                <td>@f.Sala?.Nombre</td>
+                                <td>@($"{f.Fecha:yyyy-MM-dd}")</td>
+                                <td>@f.HoraInicio</td>
+                                <td>@f.HoraFin</td>
+                                <td>@f.Idioma</td>
+                                <td>@f.Formato</td>
+                                @* <td>$@f.Precio</td> *@
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+
+</body>
+</html>

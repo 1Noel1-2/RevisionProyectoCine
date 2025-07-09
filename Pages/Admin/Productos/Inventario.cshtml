@@ -1,0 +1,105 @@
+@page
+@model Proyecto_Cine.Pages.Admin.Productos.InventarioModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Inventario de Productos";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="/css/Sitio.css" />
+    <style>
+        body {
+            background-color: #1b1b1b;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .contenedor {
+            margin: 2rem auto;
+            max-width: 90%;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background-color: #262626;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: #00bfff;
+            color: #000;
+        }
+
+        tr:nth-child(even) {
+            background-color: #1f1f1f;
+        }
+
+        .btn-x {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 1.2rem;
+            color: white;
+            background-color: #ff4c4c;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            text-align: center;
+            line-height: 35px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-x:hover {
+            background-color: #d93636;
+        }
+    </style>
+</head>
+<body>
+    <a onclick="window.history.back()" class="btn-x">✖</a>
+    <div class="contenedor">
+        <h2>📦 Inventario de Productos</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Marca</th>
+                    <th>Precio</th>
+                    <th>Existencia</th>
+                    <th>Categoría</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model.Productos)
+                {
+                    <tr>
+                        <td>@p.Nombre</td>
+                        <td>@p.Marca</td>
+                        <td>$@p.Precio.ToString("F2")</td>
+                        <td>@p.Existencia</td>
+                        <td>@p.Categoria</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

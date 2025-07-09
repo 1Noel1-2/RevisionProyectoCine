@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gestión de Funciones</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #1a1a1a;
+      color: white;
+    }
+
+    .header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-left h2 {
+  margin: 0;
+}
+
+.header-left .subtitle {
+  font-size: 13px;
+  color: #ccc;
+}
+
+
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: #111;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+    }
+
+    .nav-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 10px;
+      width: 100%;
+      text-align: center;
+      background-color: #00bfff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .nav-btn.active {
+      background-color: #ffa500;
+      color: black;
+    }
+
+    .main {
+      flex: 1;
+      padding: 30px;
+      background-color: #222;
+    }
+
+    .main h2 {
+      margin-top: 0;
+      font-size: 26px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+
+    .top-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .top-buttons button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-add {
+      background-color: #0d6efd;
+      color: white;
+    }
+
+    .btn-consult {
+      background-color: #00bfff;
+      color: white;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    select, input[type="date"] {
+      padding: 8px 12px;
+      font-size: 14px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    .pelicula-bloque {
+      margin-bottom: 40px;
+    }
+
+    .pelicula-titulo {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #fff;
+      border-left: 6px solid #00bfff;
+      padding-left: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #333;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #555;
+      text-align: left;
+    }
+
+    th {
+      background-color: #444;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #3d3d3d;
+    }
+
+    .acciones button {
+      padding: 6px 10px;
+      margin-right: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .btn-editar {
+      background-color: #ffc107;
+      color: black;
+    }
+
+    .btn-eliminar {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <div class="sidebar">
+  <div style="text-align: center; margin-bottom: 15px;">
+    <img src="logo.svg" alt="Logo" style="max-width: 150px; height: auto;" />
+  </div>
+  <h2>Administrador</h2>
+  <button class="nav-btn">Películas</button>
+  <button class="nav-btn active">Funciones</button>
+  <button class="nav-btn">Salas</button>
+</div>
+
+
+    <!-- Main content -->
+    <div class="main">
+      <div class="header-flex">
+  <div class="header-left">
+    <h2>Funciones</h2>
+    <div class="subtitle">Gestión de las funciones de cine</div>
+  </div>
+  <div class="top-buttons">
+    <button class="btn-add">➕ Añadir</button>
+    <button class="btn-consult">Consultar Funciones</button>
+  </div>
+</div>
+
+
+      <!-- Filtros -->
+      <div class="filters">
+  <label style="font-weight: bold; padding-top: 8px;">Filtrar por:</label>
+        <select id="filtro-pelicula">
+          <option value="">Todas las películas</option>
+          <option value="Intensamente 2">Intensamente 2</option>
+          <option value="Furiosa">Furiosa</option>
+          <option value="Godzilla x Kong">Godzilla x Kong</option>
+        </select>
+
+        <select id="filtro-sala">
+          <option value="">Todas las salas</option>
+          <option value="Sala 1">Sala 1</option>
+          <option value="Sala 2">Sala 2</option>
+          <option value="Sala 3">Sala 3</option>
+        </select>
+
+        <input type="date" id="filtro-fecha" />
+      </div>
+
+      <!-- Funciones por película -->
+      <div id="funciones-container">
+
+        <!-- Intensamente 2 -->
+        <div class="pelicula-bloque" data-pelicula="Intensamente 2">
+          <div class="pelicula-titulo">🎬 Intensamente 2</div>
+          <table>
+            <thead>
+              <tr><th>ID</th><th>Sala</th><th>Fecha</th><th>Inicio</th><th>Fin</th><th>Idioma</th><th>Formato</th><th>Precio</th><th>Acciones</th></tr>
+            </thead>
+            <tbody>
+              <tr data-sala="Sala 1" data-fecha="2025-06-15">
+                <td>101</td><td>Sala 1</td><td>2025-06-15</td><td>14:00</td><td>16:00</td><td>Español</td><td>2D</td><td>$90</td>
+                <td class="acciones"><button class="btn-editar">Editar</button><button class="btn-eliminar">Eliminar</button></td>
+              </tr>
+              <tr data-sala="Sala 2" data-fecha="2025-06-15">
+                <td>102</td><td>Sala 2</td><td>2025-06-15</td><td>17:00</td><td>19:00</td><td>Español</td><td>3D</td><td>$100</td>
+                <td class="acciones"><button class="btn-editar">Editar</button><button class="btn-eliminar">Eliminar</button></td>
+              </tr>
+              <tr data-sala="Sala 3" data-fecha="2025-06-15">
+                <td>103</td><td>Sala 3</td><td>2025-06-15</td><td>20:00</td><td>22:00</td><td>Subtitulada</td><td>2D</td><td>$85</td>
+                <td class="acciones"><button class="btn-editar">Editar</button><button class="btn-eliminar">Eliminar</button></td>
+              </tr>
+              <tr data-sala="Sala 1" data-fecha="2025-06-16">
+                <td>104</td><td>Sala 1</td><td>2025-06-16</td><td>12:00</td><td>14:00</td><td>Español</td><td>2D</td><td>$90</td>
+                <td class="acciones"><button class="btn-editar">Editar</button><button class="btn-eliminar">Eliminar</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Furiosa -->
+        <div class="pelicula-bloque" data-pelicula="Furiosa">
+          <div class="pelicula-titulo">🎬 Furiosa</div>
+          <table>
+            <thead>
+              <tr><th>ID</th><th>Sala</th><th>Fecha</th><th>Inicio</th><th>Fin</th><th>Idioma</th><th>Formato</th><th>Precio</th><th>Acciones</th></tr>
+            </thead>
+            <tbody>
+              <tr data-sala="Sala 1" data-fecha="2025-06-15">
+                <td>201</td><td>Sala 1</td><td>2025-06-15</td><td>15:30</td><td>17:45</td><td>Subtitulada</td><td>2D</td><td>$95</td>
+                <td class="acciones"><button class="btn-editar">Editar</button><button class="btn-eliminar">Eliminar</button></td>
+              </tr>
+              <tr data-sala="Sala 2" data-fecha="2025-06-15">
+                <td>202</td><td>Sala 2</td><td>2025-06-15</td><td>18:00</td><td>20:15</td><td>Español</td><td>3D</td><td>$110</td>
+                <td class="acciones"><button class="btn-editar">Editar</button><button class="btn-eliminar">Eliminar</button></td>
+              </tr>
+              <tr data-sala="Sala 3" data-fecha="2025-06-16">
+                <td>203</td><td>Sala 3</td><td>2025-06-16</td><td>16:00</td><td>18:10</td><td>Subtitulada</td><td>2D</td><td>$90</td>
+                <td class="acciones"><button class="btn-editar">Editar</button><button class="btn-eliminar">Eliminar</button></td>
+              </tr>
+              <tr data-sala="Sala 1" data-fecha="2025-06-16">
+                <td>204</td><td>Sala 1</td><td>2025-06-16</td><td>20:00</td><td>22:15</td><td>Español</td><td>2D</td><td>$95</td>
+                <td class="acciones"><button class="btn-editar">Editar</button><button class="btn-eliminar">Eliminar</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Godzilla x Kong -->
+        <div class="pelicula-bloque" data-pelicula="Godzilla x Kong">
+          <div class="pelicula-titulo">🎬 Godzilla x Kong</div>
+          <table>
+            <thead>
+              <tr><th>ID</th><th>Sala</th><th>Fecha</th><th>Inicio</th><th>Fin</th><th>Idioma</th><th>Formato</th><th>Precio</th><th>Acciones</th></tr>
+            </thead>
+            <tbody>
+              <tr data-sala="Sala 2" data-fecha="2025-06-15">
+                <td>301</td><td>Sala 2</td><td>2025-06-15</td><td>13:00</td><td>15:20</td><td>Español</td><td>IMAX</td><td>$120</td>
+                <td class="acciones"><button class="btn-editar">Editar</button><button class="btn-eliminar">Eliminar</button></td>
+              </tr>
+              <tr data-sala="Sala 3" data-fecha="2025-06-15">
+                <td>302</td><td>Sala 3</td><td>2025-06-15</td><td>17:30</td><td>19:45</td><td>Subtitulada</td><td>2D</td><td>$95</td>
+                <td class="acciones"><button class="btn-editar">Editar</button><button class="btn-eliminar">Eliminar</button></td>
+              </tr>
+              <tr data-sala="Sala 1" data-fecha="2025-06-16">
+                <td>303</td><td>Sala 1</td><td>2025-06-16</td><td>19:00</td><td>21:10</td><td>Español</td><td>3D</td><td>$110</td>
+                <td class="acciones"><button class="btn-editar">Editar</button><button class="btn-eliminar">Eliminar</button></td>
+              </tr>
+              <tr data-sala="Sala 2" data-fecha="2025-06-16">
+                <td>304</td><td>Sala 2</td><td>2025-06-16</td><td>21:30</td><td>23:45</td><td>Subtitulada</td><td>IMAX</td><td>$130</td>
+                <td class="acciones"><button class="btn-editar">Editar</button><button class="btn-eliminar">Eliminar</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript para filtrado -->
+  <script>
+    const peliculaFiltro = document.getElementById("filtro-pelicula");
+    const salaFiltro = document.getElementById("filtro-sala");
+    const fechaFiltro = document.getElementById("filtro-fecha");
+
+    const bloques = document.querySelectorAll(".pelicula-bloque");
+
+    function aplicarFiltros() {
+      const peli = peliculaFiltro.value;
+      const sala = salaFiltro.value;
+      const fecha = fechaFiltro.value;
+
+      bloques.forEach(bloque => {
+        const esPelicula = !peli || bloque.dataset.pelicula === peli;
+        let tieneCoincidencia = false;
+
+        const filas = bloque.querySelectorAll("tbody tr");
+        filas.forEach(fila => {
+          const filaSala = fila.dataset.sala;
+          const filaFecha = fila.dataset.fecha;
+
+          const coincideSala = !sala || sala === filaSala;
+          const coincideFecha = !fecha || fecha === filaFecha;
+
+          const mostrar = coincideSala && coincideFecha;
+          fila.style.display = mostrar ? "" : "none";
+
+          if (mostrar && esPelicula) tieneCoincidencia = true;
+        });
+
+        bloque.style.display = (esPelicula && tieneCoincidencia) ? "" : "none";
+      });
+    }
+
+    peliculaFiltro.addEventListener("change", aplicarFiltros);
+    salaFiltro.addEventListener("change", aplicarFiltros);
+    fechaFiltro.addEventListener("change", aplicarFiltros);
+  </script>
+</body>
+</html>

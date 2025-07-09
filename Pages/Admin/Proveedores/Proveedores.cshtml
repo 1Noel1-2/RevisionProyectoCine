@@ -1,0 +1,99 @@
+@page
+@model Proyecto_Cine.Pages.Admin.Proveedores.ProveedoresModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Proveedores - Admin";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/css/Sitio.css" />
+</head>
+<body>
+<div class="admin-panel">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="~/images/logo.svg" alt="Logo" class="logo-img" />
+        </div>
+        <h2>Administrador</h2>
+        <a href="/Admin/PanelAdmin" class="btn">Inicio Admin</a>
+        <a href="/Admin/CarteleraAdmin" class="btn">Películas</a>
+        <a href="/Admin/FuncionesAdmin" class="btn">Funciones</a>
+        <a href="/Admin/SalasAdmin" class="btn">Salas</a>
+        <a href="/Admin/Proveedores" class="btn">Proveedores</a>
+        <a href="/Admin/Productos/Inventario" class="btn">Inventario</a>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="content">
+        <h2>📦 Proveedores</h2>
+        <p>Visualización y gestión de proveedores registrados</p>
+
+        <a href="/Admin/Proveedores/Alta" class="btn" style="width: fit-content;">+ Dar de alta</a>
+
+
+        <div class="scroll-x">
+            <table class="table-admin">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Razón Social</th>
+                        <th>RFC</th>
+                        <th>Domicilio</th>
+                        <th>Teléfono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var p in Model.Proveedores)
+                    {
+                        <tr>
+                            <td>@p.Nombre</td>
+                            <td>@p.RazonSocial</td>
+                            <td>@p.RFC</td>
+                            <td>@p.Domicilio</td>
+                            <td>@p.Telefono</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <h2 style="margin-top: 3rem;">🧾 Compras</h2>
+        <p>Compras realizadas a proveedores</p>
+
+        <a href="/Admin/Proveedores/Compras/NuevaCompra" class="btn" style="width: fit-content;">+ Compra</a>
+
+
+        <div class="scroll-x">
+            <table class="table-admin">
+                <thead>
+                    <tr>
+                        <th>Proveedor</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var c in Model.Compras)
+                    {
+                        <tr>
+                            <td>@c.NombreProveedor</td>
+                            <td>@c.NombreProducto</td>
+                            <td>@c.Cantidad</td>
+                            <td>@c.Fecha.ToString("yyyy-MM-dd HH:mm")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+</body>
+</html>

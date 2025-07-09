@@ -1,0 +1,68 @@
+@page
+@model Proyecto_Cine.Pages.LoginModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+<div class="login-container">
+    <form method="post">
+        <div class="form-logo">
+            <img src="~/images/logo.svg" alt="Logo" class="logo-img"/>
+        </div>
+
+        @* Aquí se muestra el mensaje de error general *@
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <div>@error.ErrorMessage</div>
+                }
+            </div>
+        }
+
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" type="email" class="form-control" required />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" autocomplete="off" type="password" required/>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-primary">Ingresar</button>
+            <a asp-page="/Cliente/home" class="btn btn-secondary">Invitado</a>
+        </div>
+
+        <div class="form-links">
+            @* <a asp-page="/RecuperarContrasena">¿Olvidaste tu contraseña?</a><br /> *@
+            <span>¿No tienes cuenta? <a asp-page="/Cliente/Registro">Crear Cuenta</a></span>
+        </div>
+
+        <div style="color:red;">
+            @Model.MensajeError
+        </div>
+
+        @* @if (!string.IsNullOrEmpty(Model.HashDebug))
+        {
+            <hr />
+            <div style="color:green;">
+                <p><strong>Hash ingresado:</strong> @Model.HashDebug</p>
+                <p><strong>Hash en BD:</strong> @Model.HashGuardado</p>
+                <p><strong>Coinciden:</strong> @(Model.HashMatch ? "Sí ✅" : "No ❌")</p>
+            </div>
+        } *@
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

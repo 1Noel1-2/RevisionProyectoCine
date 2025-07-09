@@ -1,0 +1,215 @@
+body {
+    margin: 0;
+    background-color: #1e1e1e;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+.movie-card.inactive {
+    opacity: 0.75;
+    background-color: #f3f3f3;
+}
+
+.titulodes{
+    color: #2a2a2a;
+}
+
+.btn-accion.btn-activar {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.admin-panel {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: row;
+}
+
+.sidebar {
+    background: #000;
+    padding: 2rem 1rem;
+    width: 220px;
+    text-align: center;
+}
+
+.sidebar .logo img {
+    width: 100px;
+    margin-bottom: 1rem;
+}
+
+.sidebar h2 {
+    margin: 1rem 0;
+    font-size: 1.2rem;
+    color: white;
+}
+
+.sidebar .btn {
+    display: block;
+    margin: 1rem auto;
+    padding: 0.6rem 1rem;
+    background-color: #007bff;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+}
+
+.sidebar .btn:hover {
+    background-color: #0056b3;
+}
+
+.content {
+    flex: 1;
+    padding: 2rem;
+}
+
+.search-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.search-form input[type="text"] {
+    flex: 1;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: none;
+}
+
+.search-form button,
+.search-form a.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: none;
+    background-color: deepskyblue;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* TARJETAS DE PELÍCULA */
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.movie-card {
+    background-color: #2a2a2a;
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.badge {
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 0.6rem;
+    display: inline-block;
+}
+
+.badge-a {
+    background-color: #4caf50;
+    color: white;
+}
+
+.badge-b {
+    background-color: #ffeb3b;
+    color: black;
+}
+
+.badge-c {
+    background-color: #f44336;
+    color: white;
+}
+
+.movie-img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 0.8rem;
+}
+
+.titulo {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0.5rem 0 1rem;
+    color: #fff;
+}
+
+/* BOTONES DE ACCIÓN UNIFORMES */
+
+.btn-accion {
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5rem 0;
+    margin-top: 0.4rem;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.movie-card a.btn-accion,
+.movie-card form .btn-accion {
+    width: 100%;
+    display: inline-block;
+    padding: 0.5rem 0;
+    box-sizing: border-box;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-modificar {
+    background-color: #00bfff;
+    color: white;
+}
+
+.btn-modificar:hover {
+    background-color: #009acd;
+}
+
+.btn-quitar {
+    background-color: #8b0000;
+    color: white;
+}
+
+.btn-quitar:hover {
+    background-color: #a30000;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+    .admin-panel {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .sidebar .btn {
+        width: 80%;
+        margin-bottom: 1rem;
+    }
+
+    .content {
+        padding: 1rem;
+    }
+}
